@@ -1,9 +1,14 @@
 
 
-class ObjectType(val name: String)
-
 
 // location type is not permanent
-class GameObject(oType: ObjectType, location: (Int, Int)) {
+class GameObject(val location: (Int,Int)) {
 
 }
+
+
+class Road(location: (Int,Int)) extends GameObject(location)
+
+class Ground(location: (Int,Int)) extends GameObject(location)
+
+class Obstacle(location: (Int,Int)) extends GameObject(location)
