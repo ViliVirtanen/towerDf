@@ -1,7 +1,17 @@
+import scalafx.application.JFXApp
+import scalafx.scene.Scene
+import scalafx.scene.layout.Pane
 
+object GameApp extends JFXApp {
 
-object GameApp extends App {
+  stage = new JFXApp.PrimaryStage {
+    title.value = "Hello Stage"
+    width = 600
+    height = 450
+  }
 
-println("Hello World!")
+  val root = new Pane          //Simple pane component
+  val scene = new Scene(root)  //Scene acts as a container for the scene graph
+  stage.scene = scene
 
 }

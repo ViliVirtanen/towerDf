@@ -1,3 +1,5 @@
-class Game {
+
+
+class Game(val world: World) {
 
 }
