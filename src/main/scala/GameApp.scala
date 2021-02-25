@@ -5,7 +5,7 @@ import scalafx.scene.layout.Pane
 object GameApp extends JFXApp {
 
   stage = new JFXApp.PrimaryStage {
-    title.value = "Hello Stage"
+    title.value = "asdasd"
     width = 600
     height = 450
   }
