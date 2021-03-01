@@ -24,5 +24,8 @@ class World(file: String) {
  //createMap method will read the layout of the map from file and change the map to look like it
  def createMap = ???
 
+ // update all objects and map
+ def update() = ???
+
 
 }
