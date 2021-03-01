@@ -30,7 +30,7 @@ object GameApp extends JFXApp {
     grid.getRowConstraints.add(rc)
   }
 
- // making visible grid
+ // making visible grid.
   for (i <- 1 to 9) {
     for (j <- 1 to 9) {
       grid.add(Rectangle(30,30,White),i,j)

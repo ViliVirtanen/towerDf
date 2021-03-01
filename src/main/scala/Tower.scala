@@ -1,4 +1,4 @@
-
+import scalafx.scene.paint.Color
 //implement different towers
 
  abstract class Tower(location: (Int, Int)) extends GameObject(location){
@@ -6,6 +6,8 @@
   val range:       Int
   val attackSpeed: Int
   val damage:      Int
+   val id = 'T'
+
 
  }
 
@@ -15,5 +17,9 @@ class normalTower(location: (Int, Int)) extends Tower(location) {
   val price       = 2
   val damage      = 1
   var canPass     = true
+  var color       = Color.Blue
+
+
+
  // and more
 }

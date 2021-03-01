@@ -27,5 +27,8 @@ class World(file: String) {
  // update all objects and map
  def update() = ???
 
+ // add objects
+ def addObject(loc: (Int,Int), gobject: GameObject) = map(loc._1)(loc._2) = gobject.id
+
 
 }
