@@ -24,10 +24,8 @@ class World(file: String) {
      val fileIn = new FileReader(file)
      val lineIn = new BufferedReader(fileIn)
 
-
      try {
       var oneLine = lineIn.readLine()
-
 
       while ({oneLine = lineIn.readLine(); oneLine != null}) {
 
@@ -43,14 +41,13 @@ class World(file: String) {
                          counter2 += 1
              case 'O' => holder   += new Obstacle(counter1,counter2)
                          counter2 += 1
-             case  _  =>
+             case  _  => throw new Exception
            }
          }
          map += holder
          counter1 += 1
          }
       }
-
      } finally {
        fileIn.close()
         lineIn.close()
@@ -58,10 +55,8 @@ class World(file: String) {
    } catch {
       case notFound: FileNotFoundException => throw new FileNotFoundException("File not found")
       case e: IOException                  => throw new IOException("Reading failed")
-      case a: Exception                    => throw new Exception("Something else went wrong")
-
+      case a: Exception                    => throw new Exception("Map file is corrupted")
     }
-
  }
 
  // update all objects and map

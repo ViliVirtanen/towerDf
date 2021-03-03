@@ -22,7 +22,7 @@ object GameApp extends JFXApp {
   }
 
 // positioning the grid to right place
-  val grid = new GridPane()   //grid for map
+  val grid = new GridPane()              //grid for map
   val rc   = new RowConstraints()
   val cc   = new ColumnConstraints()
       grid.setAlignment(Pos.TopRight)
@@ -51,7 +51,6 @@ object GameApp extends JFXApp {
 
          case _ =>      throw new Exception
        }
-
      }
     }
   } catch {

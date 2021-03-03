@@ -1,4 +1,5 @@
-map layout
+map1 layout
+Types: R=Road, #=Ground, O=Obstacle
 
 R#####RR#R
 R#O#RRRRR#
