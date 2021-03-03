@@ -4,7 +4,7 @@ import scalafx.geometry.Pos
 import scalafx.scene.Scene
 import scalafx.scene.layout.{ColumnConstraints, GridPane, RowConstraints}
 import scalafx.scene.paint.Color._
-import scalafx.scene.shape.{Circle, Rectangle, TriangleMesh}
+import scalafx.scene.shape.{Circle, Line, Rectangle, TriangleMesh}
 
 object GameApp extends JFXApp {
 
@@ -39,10 +39,12 @@ object GameApp extends JFXApp {
      for (j <- 0 to 9) {
 
        world.map(i)(j) match {
-         case 'G' =>    grid.add(Rectangle(50,50,Green),j,i)
-         case 'R' =>    grid.add(Rectangle(50,50,Brown),j,i)
-         case 'T' =>    grid.add(Rectangle(50,50,Green),j,i)
-                        grid.add(Circle(20,Blue),j,i)
+         case g: Ground =>    grid.add(Rectangle(50,50,Green),j,i)
+         case g: Road  =>     grid.add(Rectangle(50,50,Brown),j,i)
+         case g: Obstacle =>  grid.add(Rectangle(50,50,Green),j,i)
+                              grid.add(Circle(15,g.color),j,i)
+         case g: Tower =>     grid.add(Rectangle(50,50,Green),j,i)
+                              grid.add(Circle(20,g.color),j,i)
 
          case _ =>      throw new Exception
        }
