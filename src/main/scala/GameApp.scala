@@ -4,16 +4,19 @@ import scalafx.geometry.Pos
 import scalafx.scene.Scene
 import scalafx.scene.layout.{ColumnConstraints, GridPane, RowConstraints}
 import scalafx.scene.paint.Color._
-import scalafx.scene.shape.{Circle, Line, Rectangle, TriangleMesh}
+import scalafx.scene.shape.{Circle, Rectangle}
 
 object GameApp extends JFXApp {
 
-  val world  = new World("")
+                        // have to use absolute path for some reason
+  val world  = new World("C:\\Users\\virta\\IdeaProjects\\Tower Defence\\src\\main\\scala\\map1.txt")
   val player = new Player(100,100)
   val game   = new Game(world, player)
 
+  world.createMap()
+
   stage = new JFXApp.PrimaryStage {
-    title.value = "asdasd"
+    title.value = "Tower Defence"
     width = 800
     height = 700
   }
@@ -28,7 +31,7 @@ object GameApp extends JFXApp {
       cc.setPrefWidth(50)
 
   //adding the constraints to the grid
-  for (i <- 1 to 10) {
+  for (i <- 0 to 9) {
     grid.getColumnConstraints.add(cc)
     grid.getRowConstraints.add(rc)
   }
