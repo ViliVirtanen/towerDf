@@ -7,6 +7,7 @@ import scalafx.scene.paint.Color
   val attackSpeed: Int
   val damage:      Int
    val id = 'T'
+   def update() = ???
 
 
  }

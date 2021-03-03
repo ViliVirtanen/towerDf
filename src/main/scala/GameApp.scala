@@ -4,9 +4,13 @@ import scalafx.geometry.Pos
 import scalafx.scene.Scene
 import scalafx.scene.layout.{ColumnConstraints, GridPane, RowConstraints}
 import scalafx.scene.paint.Color._
-import scalafx.scene.shape.Rectangle
+import scalafx.scene.shape.{Circle, Rectangle, TriangleMesh}
 
 object GameApp extends JFXApp {
+
+  val world  = new World("")
+  val player = new Player(100,100)
+  val game   = new Game(world, player)
 
   stage = new JFXApp.PrimaryStage {
     title.value = "asdasd"
@@ -18,7 +22,6 @@ object GameApp extends JFXApp {
   val grid = new GridPane()   //grid for map
   val rc   = new RowConstraints()
   val cc   = new ColumnConstraints()
-      grid.gridLinesVisible = true
       grid.setAlignment(Pos.TopRight)
       grid.setPadding(new Insets(10,10,10,10))
       rc.setPrefHeight(50)
@@ -31,11 +34,27 @@ object GameApp extends JFXApp {
   }
 
  // making visible grid.
-  for (i <- 1 to 9) {
-    for (j <- 1 to 9) {
-      grid.add(Rectangle(30,30,White),i,j)
+  try {
+    for (i <- 0 to 9) {
+     for (j <- 0 to 9) {
+
+       world.map(i)(j) match {
+         case 'G' =>    grid.add(Rectangle(50,50,Green),j,i)
+         case 'R' =>    grid.add(Rectangle(50,50,Brown),j,i)
+         case 'T' =>    grid.add(Rectangle(50,50,Green),j,i)
+                        grid.add(Circle(20,Blue),j,i)
+
+         case _ =>      throw new Exception
+       }
+
+     }
     }
+  } catch {
+     case exception: Exception =>
+       val e = new Exception("Wrong type of element in map")
+       throw e
   }
+
 
   val root = grid
   val scene = new Scene(root)  //Scene acts as a container for the scene graph
