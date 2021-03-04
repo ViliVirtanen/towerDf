@@ -1,7 +1,7 @@
 import scalafx.application.JFXApp
 import scalafx.geometry.Pos
 import scalafx.scene.Scene
-import scalafx.scene.control.Button
+import scalafx.scene.control.{Button, Label}
 import scalafx.scene.layout.{AnchorPane, ColumnConstraints, GridPane, RowConstraints, StackPane}
 import scalafx.scene.paint.Color._
 import scalafx.scene.shape.{Circle, Rectangle}
@@ -25,6 +25,8 @@ object GameApp extends JFXApp {
   val anchor  = new AnchorPane()
   val button1 = new Button("Normal Tower")
   val button2 = new Button("Other Tower")
+  val towerT  = new Label("Buy Towers")
+  val health  = new Label("Health " + player.hp.toString)
 // positioning the grid to right place
   val grid    = new GridPane()              //grid for map
   val rc      = new RowConstraints()
@@ -61,9 +63,11 @@ object GameApp extends JFXApp {
   }
 
 // Setting up the buttons
-  anchor.children = List(button1,button2)
+  anchor.children = List(button1,button2, towerT, health)
   AnchorPane.setTopAnchor(button1,30)
   AnchorPane.setTopAnchor(button2,60)
+  AnchorPane.setTopAnchor(towerT,10)
+  AnchorPane.setTopAnchor(health,200)
 
   stack.children  = List(grid,anchor)
   val root        = stack
