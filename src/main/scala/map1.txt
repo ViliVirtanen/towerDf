@@ -1,5 +1,5 @@
 map1 layout
-Types: R=Road, #=Ground, O=Obstacle
+Types: R=Game.Road, #=Game.Ground, O=Game.Obstacle
 
 R#####RR#R
 R#O#RRRRR#

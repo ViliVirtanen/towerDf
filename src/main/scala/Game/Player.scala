@@ -1,3 +1,5 @@
+package Game
+
 
 class Player(startingHp: Int, startingCoins: Int) {
 

@@ -1,3 +1,5 @@
+package Game
+
 import scalafx.scene.paint.Color
 
 
@@ -10,10 +12,7 @@ abstract class GameObject(val location: (Int, Int)) {
   val id: Char
   def update()
 
-
-
 }
-
 
 class Road(location: (Int, Int)) extends GameObject(location) {
   var color = Color.Brown
@@ -22,7 +21,6 @@ class Road(location: (Int, Int)) extends GameObject(location) {
   val id = 'R'
 
   def update() = ???
-
 }
 
 class Ground(location: (Int, Int)) extends GameObject(location) {
@@ -30,7 +28,6 @@ class Ground(location: (Int, Int)) extends GameObject(location) {
   var color = Color.Green
   val id = 'G'
   def update() = ???
-
 }
 
 class Obstacle(location: (Int, Int)) extends GameObject(location){
@@ -38,5 +35,4 @@ class Obstacle(location: (Int, Int)) extends GameObject(location){
   var canPass: Boolean = true
   val id = 'O'
   def update() = ???
-
 }

@@ -1,3 +1,5 @@
+package Game
+
 import scalafx.scene.paint.Color
 //implement different towers
 

@@ -1,3 +1,5 @@
+package Game
+
 import java.io.{BufferedReader, FileNotFoundException, FileReader, IOException}
 import scala.collection.mutable.Buffer
 
