@@ -1,8 +1,8 @@
-import javafx.geometry.Insets
 import scalafx.application.JFXApp
 import scalafx.geometry.Pos
 import scalafx.scene.Scene
-import scalafx.scene.layout.{ColumnConstraints, GridPane, RowConstraints}
+import scalafx.scene.control.Button
+import scalafx.scene.layout.{AnchorPane, ColumnConstraints, GridPane, RowConstraints, StackPane}
 import scalafx.scene.paint.Color._
 import scalafx.scene.shape.{Circle, Rectangle}
 
@@ -12,28 +12,30 @@ object GameApp extends JFXApp {
   val world  = new World("C:\\Users\\virta\\IdeaProjects\\Tower Defence\\src\\main\\scala\\map1.txt")
   val player = new Player(100,100)
   val game   = new Game(world, player)
-
   world.createMap()
 
   stage = new JFXApp.PrimaryStage {
     title.value = "Tower Defence"
-    width = 800
-    height = 700
+    width = 900
+    height = 750
   }
 
+// proper layout for GUI
+  val stack   = new StackPane()
+  val anchor  = new AnchorPane()
+  val button1 = new Button("Normal Tower")
+  val button2 = new Button("Other Tower")
 // positioning the grid to right place
-  val grid = new GridPane()              //grid for map
-  val rc   = new RowConstraints()
-  val cc   = new ColumnConstraints()
+  val grid    = new GridPane()              //grid for map
+  val rc      = new RowConstraints()
+  val cc      = new ColumnConstraints()
       grid.setAlignment(Pos.TopRight)
-      grid.setPadding(new Insets(10,10,10,10))
-      rc.setPrefHeight(50)
-      cc.setPrefWidth(50)
-
+      rc.setPrefHeight(70)
+      cc.setPrefWidth(70)
   //adding the constraints to the grid
   for (i <- 0 to 9) {
-    grid.getColumnConstraints.add(cc)
-    grid.getRowConstraints.add(rc)
+      grid.getColumnConstraints.add(cc)
+      grid.getRowConstraints.add(rc)
   }
 
  // making visible grid.
@@ -42,14 +44,13 @@ object GameApp extends JFXApp {
      for (j <- 0 to 9) {
 
        world.map(i)(j) match {
-         case g: Ground =>    grid.add(Rectangle(50,50,Green),j,i)
-         case g: Road  =>     grid.add(Rectangle(50,50,Brown),j,i)
-         case g: Obstacle =>  grid.add(Rectangle(50,50,Green),j,i)
-                              grid.add(Circle(15,g.color),j,i)
-         case g: Tower =>     grid.add(Rectangle(50,50,Green),j,i)
-                              grid.add(Circle(20,g.color),j,i)
-
-         case _ =>      throw new Exception
+         case g: Ground   =>  grid.add(Rectangle(70,70,Green),j,i)
+         case g: Road     =>  grid.add(Rectangle(70,70,Brown),j,i)
+         case g: Obstacle =>  grid.add(Rectangle(70,70,Green),j,i)
+                              grid.add(Circle(25,g.color),j,i)
+         case g: Tower    =>  grid.add(Rectangle(70,70,Green),j,i)
+                              grid.add(Circle(50,g.color),j,i)
+         case _           =>  throw new Exception
        }
      }
     }
@@ -59,9 +60,14 @@ object GameApp extends JFXApp {
        throw e
   }
 
+// Setting up the buttons
+  anchor.children = List(button1,button2)
+  AnchorPane.setTopAnchor(button1,30)
+  AnchorPane.setTopAnchor(button2,60)
 
-  val root = grid
-  val scene = new Scene(root)  //Scene acts as a container for the scene graph
+  stack.children  = List(grid,anchor)
+  val root        = stack
+  val scene       = new Scene(root)  //Scene acts as a container for the scene graph
 
   stage.scene = scene
 

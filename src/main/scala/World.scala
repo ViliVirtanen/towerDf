@@ -13,11 +13,9 @@ class World(file: String) {
   // im not sure if I even need current objects
   var currentObjects: Buffer[GameObject] = Buffer()
 
-
  //createMap method will read the layout of the map from file and makes a 2d buffer
  // makes objects and adds them to the right places
  def createMap() = {
-
    var counter1 = 0
 
    try {
@@ -28,7 +26,6 @@ class World(file: String) {
       var oneLine = lineIn.readLine()
 
       while ({oneLine = lineIn.readLine(); oneLine != null}) {
-
         var counter2 = 0
         var holder: Buffer[GameObject] = Buffer()
 
@@ -67,5 +64,4 @@ class World(file: String) {
       map(gobject.location._1)(gobject.location._2) = gobject
       currentObjects += gobject
  }
-
 }
