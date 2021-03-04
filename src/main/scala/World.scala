@@ -1,8 +1,5 @@
+import java.io.{BufferedReader, FileNotFoundException, FileReader, IOException}
 import scala.collection.mutable.Buffer
-import java.io.FileReader
-import java.io.BufferedReader
-import java.io.FileNotFoundException
-import java.io.IOException
 
 class World(file: String) {
 

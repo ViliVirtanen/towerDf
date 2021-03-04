@@ -2,14 +2,14 @@ import scalafx.application.JFXApp
 import scalafx.geometry.Pos
 import scalafx.scene.Scene
 import scalafx.scene.control.{Button, Label}
-import scalafx.scene.layout.{AnchorPane, ColumnConstraints, GridPane, RowConstraints, StackPane}
+import scalafx.scene.layout._
 import scalafx.scene.paint.Color._
 import scalafx.scene.shape.{Circle, Rectangle}
 
 object GameApp extends JFXApp {
 
                         // have to use absolute path for some reason
-  val world  = new World("C:\\Users\\virta\\IdeaProjects\\Tower Defence\\src\\main\\scala\\map1.txt")
+  val world  = new World("C:\\Users\\virta\\IdeaProjects\\Tower Defence\\src\\main\\map1.txt")
   val player = new Player(100,100)
   val game   = new Game(world, player)
   world.createMap()
