@@ -1,0 +1,13 @@
+map1 layout
+Types: R=Game.Road, #=Game.Ground, O=Game.Obstacle
+
+R#####RR#R
+R#O#RRRRR#
+####R#####
+####R#####
+###RR#####
+RRRR######
+R#######R#
+##########
+##########
+#####RO###
