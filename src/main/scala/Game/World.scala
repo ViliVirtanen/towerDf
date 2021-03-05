@@ -37,6 +37,8 @@ class World(file: String) {
                          counter2 += 1
              case 'O' => holder   += new Obstacle(counter1,counter2)
                          counter2 += 1
+             case 'r' => holder   += new Route(counter1,counter2)
+                         counter2 += 1
              case  _  => throw new Exception
            }
          }

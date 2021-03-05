@@ -16,7 +16,7 @@ abstract class GameObject(val location: (Int, Int)) {
 
 class Road(location: (Int, Int)) extends GameObject(location) {
   var color = Color.Brown
-  var canPass: Boolean = true
+  var canPass: Boolean = false
   var isEmpty = true
   val id = 'R'
 
@@ -24,7 +24,7 @@ class Road(location: (Int, Int)) extends GameObject(location) {
 }
 
 class Ground(location: (Int, Int)) extends GameObject(location) {
-  var canPass: Boolean = true
+  var canPass: Boolean = false
   var color = Color.Green
   val id = 'G'
   def update() = ???
@@ -32,7 +32,15 @@ class Ground(location: (Int, Int)) extends GameObject(location) {
 
 class Obstacle(location: (Int, Int)) extends GameObject(location){
   var color = Color.Grey
-  var canPass: Boolean = true
+  var canPass: Boolean = false
   val id = 'O'
+  def update() = ???
+}
+
+// this is the predefined route of the enemy
+class Route(location: (Int, Int)) extends GameObject(location) {
+  var canPass: Boolean = true
+  var color = Color.Brown
+  val id = 'r'
   def update() = ???
 }
