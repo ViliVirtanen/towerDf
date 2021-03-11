@@ -28,7 +28,7 @@ object GameApp extends JFXApp {
   val button1 = new Button("Normal Tower")
   val button2 = new Button("Other Tower")
   val towerT = new Label("Buy Towers")
-  val health = new Label("Health " + player.hp.toString)
+  var health = new Label("Health " + player.hp.toString)
   // positioning the grid to right place
   val grid = new GridPane()          //grid for map
 
@@ -72,12 +72,21 @@ object GameApp extends JFXApp {
      grid.add(Circle(25, Blue), 1, 2,10,10)
 }
   // testing how enemy moves
-  var a =  new EasyEnemy((9,99),world)
+  var a =  new EasyEnemy((9,99),world,game)
    world.addObject(a)
 
   def animate = () => {
-    grid.add(Circle(3, a.color), a.loca._2,a.loca._1)
-    world.update()
+    if ( a.loca != (98,98)) {
+     grid.add(Circle(3, a.color), a.loca._2,a.loca._1)
+    }
+     world.update()
+     health.setText("health :" + player.hp.toString)
+
+    if (a.pastLocations.length > 2) {
+      grid.add( Rectangle(7, 7, Brown),
+      a.pastLocations(a.pastLocations.length -3)._2,
+      a.pastLocations(a.pastLocations.length -3)._1 )
+    }
   }
 
   val ticker = new Ticker(animate)
@@ -101,13 +110,9 @@ object GameApp extends JFXApp {
 }
 
 
-
+// Animator
 import javafx.animation.AnimationTimer
 
-
 class Ticker(function:() =>  Unit) extends AnimationTimer {
-
-
     override def handle(now: Long): Unit = {function()}
-
 }

@@ -9,7 +9,7 @@ class World(file: String) {
  // map can be changed by adding towers etc.
 
   var map: Buffer[Buffer[GameObject]]       = Buffer()
-  // im not sure if I even need current objects
+
   var currentObjects: Buffer[GameObject] = Buffer()
 
  //createMap method will read the layout of the map from file and makes a 2d buffer
@@ -28,7 +28,13 @@ class World(file: String) {
         var counter2 = 0
         var holder: Buffer[GameObject] = Buffer()
 
-         if (oneLine.startsWith("#") || oneLine.startsWith("R") || oneLine.startsWith("O")) {
+         if (oneLine.startsWith("#") ||
+             oneLine.startsWith("R") ||
+             oneLine.startsWith("O") ||
+             oneLine.startsWith("r") ||
+             oneLine.startsWith("s") ||
+             oneLine.startsWith("g")   ) {
+
          for (a <- oneLine) {
            a match {
              case '#' => holder   += new Ground(counter1,counter2)
@@ -38,6 +44,10 @@ class World(file: String) {
              case 'O' => holder   += new Obstacle(counter1,counter2)
                          counter2 += 1
              case 'r' => holder   += new Route(counter1,counter2)
+                         counter2 += 1
+             case 's' => holder   += new Start(counter1,counter2)
+                         counter2 += 1
+             case 'g' => holder   += new Goal(counter1,counter2)
                          counter2 += 1
              case  _  => throw new Exception
            }

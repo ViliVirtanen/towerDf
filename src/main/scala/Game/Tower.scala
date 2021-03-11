@@ -23,7 +23,7 @@ class normalTower(location: (Int, Int), val world: World) extends Tower(location
   val price       = 2
   val damage      = 1
   var canPass     = true
-  var color       = Color.Blue
+  val color       = Color.Blue
 
 
 

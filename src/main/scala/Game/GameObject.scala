@@ -7,35 +7,41 @@ import scalafx.scene.paint.Color
 // First charachter is from 0 to 9 and tells whitch row
 // and second number is from 0 to 9 and tells whitch column
 abstract class GameObject(var location: (Int, Int)) {
-  var color: Color
+  val color: Color
   val id: Char
   def update()
 
 }
 
 class Road(location: (Int, Int)) extends GameObject(location) {
-  var color = Color.Brown
-  var isEmpty = true
+  val color = Color.Brown
   val id = 'R'
 
   def update() = ()
 }
 
 class Ground(location: (Int, Int)) extends GameObject(location) {
-  var color = Color.Green
+  val color = Color.Green
   val id = 'G'
   def update() = ()
 }
 
 class Obstacle(location: (Int, Int)) extends GameObject(location){
-  var color = Color.Grey
+  val color = Color.Grey
   val id = 'O'
   def update() = ()
 }
 
 // this is the predefined route of the enemy
 class Route(location: (Int, Int)) extends GameObject(location) {
-  var color = Color.Brown
+  val color = Color.Brown
   val id = 'r'
   def update() = ()
+}
+
+class Goal(location: (Int, Int)) extends Route(location) {
+  override val id = 'g'
+}
+class Start(location: (Int, Int)) extends Route(location) {
+  override val id = 's'
 }
