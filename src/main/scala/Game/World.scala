@@ -58,7 +58,7 @@ class World(file: String) {
  }
 
  // update all objects and map
- def update() = map.foreach(_.foreach(_.update()))
+ def update() = currentObjects.foreach(_.update())
 
  // add objects
  def addObject(gobject: GameObject) = {

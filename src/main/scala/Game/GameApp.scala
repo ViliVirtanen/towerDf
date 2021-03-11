@@ -5,7 +5,6 @@ import scalafx.event.ActionEvent
 import scalafx.geometry.Pos
 import scalafx.scene.Scene
 import scalafx.scene.control.{Button, Label}
-
 import scalafx.scene.layout._
 import scalafx.scene.paint.Color._
 import scalafx.scene.shape.{Circle, Rectangle}
@@ -42,31 +41,47 @@ object GameApp extends JFXApp {
   grid.getRowConstraints.add(rc)
 
 
-  // making visible grid.
-  try {
-    for (i <- 0 to 99) {
-      for (j <- 0 to 99) {
+    try {
+      for (i <- 0 to 99) {
+        for (j <- 0 to 99) {
 
-        world.map(i)(j) match {
-          case g: Ground     => grid.add(Rectangle(7, 7, Green), j, i)
-          case g: Road       => grid.add(Rectangle(7, 7, Brown), j, i)
-          case g: Route      => grid.add(Rectangle(7, 7, Brown), j, i)
-          case g: Obstacle   => grid.add(Rectangle(7, 7, Green), j, i)
-                                grid.add(Circle(2, g.color), j, i)
-          case _             => throw new Exception
+          world.map(i)(j) match {
+            case g: Ground     => grid.add(Rectangle(7, 7, Green), j, i)
+            case g: Road       => grid.add(Rectangle(7, 7, Brown), j, i)
+            case g: Route      => grid.add(Rectangle(7, 7, Brown), j, i)
+            case g: Obstacle   => grid.add(Rectangle(7, 7, Green), j, i)
+                                  grid.add(Circle(2, g.color), j, i)
+            case g: Tower      => grid.add(Rectangle(7, 7, Green), j, i)
+                                  grid.add(Circle(25, g.color), j, i, 7, 7)
+            case g: Enemy      => grid.add(Rectangle(7, 7, Green), j, i)
+                                  grid.add(Circle(3, g.color), j, i)
+            case _             => throw new Exception
+          }
         }
       }
+    } catch {
+      case exception: Exception =>
+        val e = new Exception("Wrong type of element in map")
+        throw e
     }
-  } catch {
-    case exception: Exception =>
-      val e = new Exception("Wrong type of element in map")
-      throw e
+
+
+
+  // Testing button mechanics
+  button1.onAction  = (event: ActionEvent) =>  {
+     grid.add(Circle(25, Blue), 1, 2,10,10)
+}
+  // testing how enemy moves
+  var a =  new EasyEnemy((9,99),world)
+   world.addObject(a)
+
+  def animate = () => {
+    grid.add(Circle(3, a.color), a.loca._2,a.loca._1)
+    world.update()
   }
 
-  button1.onAction  = (event: ActionEvent) =>  {
-     grid.add(Circle(25, Blue), 1, 2,9,9)
-}
-
+  val ticker = new Ticker(animate)
+  ticker.start()
 
   // Setting up the buttons
   anchor.children = List(button1, button2, towerT, health)
@@ -77,8 +92,22 @@ object GameApp extends JFXApp {
 
 
   stack.children = List(grid, anchor)
+
+
   val root = stack
   val scene = new Scene(root) //Scene acts as a container for the scene graph
   stage.scene = scene
+
+}
+
+
+
+import javafx.animation.AnimationTimer
+
+
+class Ticker(function:() =>  Unit) extends AnimationTimer {
+
+
+    override def handle(now: Long): Unit = {function()}
 
 }

@@ -8,11 +8,11 @@ import scalafx.scene.paint.Color
   val range:       Int
   val attackSpeed: Int
   val damage:      Int
-   val id = 'T'
-   def update() = ???
+  val id = 'T'
+  def update() = ()
 
-   // creates a new projectile?
-   def shoot()  = ???
+  // creates a new projectile?
+  def shoot()  = ()
 
 
  }
