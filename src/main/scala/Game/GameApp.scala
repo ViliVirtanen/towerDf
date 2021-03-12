@@ -31,7 +31,6 @@ object GameApp extends JFXApp {
   var health = new Label("Health " + player.hp.toString)
   // positioning the grid to right place
   val grid = new GridPane()          //grid for map
-
   val rc = new RowConstraints()
   val cc = new ColumnConstraints()
   grid.setAlignment(Pos.TopRight)
@@ -92,6 +91,13 @@ object GameApp extends JFXApp {
     }
 
     world.update()
+
+    if (game.gameLost) {
+      val lost = new Label("you lost!")
+       lost.setPrefSize(110,100)
+       stack.children += lost
+        ()
+    }
   }
 
   val ticker = new Ticker(animate)
@@ -112,7 +118,9 @@ object GameApp extends JFXApp {
   val scene = new Scene(root) //Scene acts as a container for the scene graph
   stage.scene = scene
 
+
 }
+
 
 
 // Animator

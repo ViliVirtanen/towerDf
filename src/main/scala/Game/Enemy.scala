@@ -6,10 +6,11 @@ import scala.collection.mutable
 
 abstract class Enemy(var loc: (Int, Int), world: World, game: Game) extends GameObject(loc) {
   var health : Int
-  val id = 'E'
-  val damage: Int
-   var pastLocations = mutable.Buffer[(Int,Int)](loc)
+  val id   = 'E'
+  val damage : Int
+  var dead = this.health == 0
 
+  var pastLocations = mutable.Buffer[(Int,Int)](loc)
   // location 98,98 is "cemetary"
   def destroy() = {
      world.map(loc._1)(loc._2) = new Route(loc._1,loc._2)
@@ -57,9 +58,10 @@ abstract class Enemy(var loc: (Int, Int), world: World, game: Game) extends Game
 }
 
 class EasyEnemy(loc: (Int, Int), world: World, game: Game) extends Enemy(loc, world,game) {
-  var health        = 1
+  var health        = 2
   val damage        = 4
   val color         = Color.Yellow
-  var dead          = health == 0
+
+  if (health == 0) destroy()
 
 }
