@@ -11,6 +11,8 @@ class World(file: String) {
   var map: Buffer[Buffer[GameObject]]       = Buffer()
 
   var currentObjects: Buffer[GameObject] = Buffer()
+  var currentEnemies: Buffer[Enemy]      = Buffer()
+  var currentTowers : Buffer[Tower]      = Buffer()
 
  //createMap method will read the layout of the map from file and makes a 2d buffer
  // makes objects and adds them to the right places
@@ -71,8 +73,14 @@ class World(file: String) {
  def update() = currentObjects.foreach(_.update())
 
  // add objects
- def addObject(gobject: GameObject) = {
-      map(gobject.location._1)(gobject.location._2) = gobject
-      currentObjects += gobject
+ def addEnemy(e: Enemy) = {
+      map(e.loc._1)(e.loc._2) = e
+      currentEnemies += e
+      currentObjects += e
  }
+  def addTower(t: Tower) = {
+     map(t.location._1)(t.location._2) = t
+      currentTowers += t
+      currentObjects += t
+  }
 }

@@ -73,20 +73,25 @@ object GameApp extends JFXApp {
 }
   // testing how enemy moves
   var a =  new EasyEnemy((9,99),world,game)
-   world.addObject(a)
+   world.addEnemy(a)
+  var b =  new EasyEnemy((9,97),world,game)
+   world.addEnemy(b)
 
   def animate = () => {
-    if ( a.loca != (98,98)) {
-     grid.add(Circle(3, a.color), a.loca._2,a.loca._1)
+    // moves all enemies
+    for (o <- world.currentEnemies) {
+      if ( o.loc != (98,98)) {
+       grid.add(Circle(3, o.color), o.loc._2,o.loc._1)
+      }
+       health.setText("health :" + player.hp.toString)
+      if (o.pastLocations.length > 1) {
+        grid.add( Rectangle(7, 7, Brown),
+        o.pastLocations(o.pastLocations.length -2)._2,
+        o.pastLocations(o.pastLocations.length -2)._1 )
+      }
     }
-     world.update()
-     health.setText("health :" + player.hp.toString)
 
-    if (a.pastLocations.length > 2) {
-      grid.add( Rectangle(7, 7, Brown),
-      a.pastLocations(a.pastLocations.length -3)._2,
-      a.pastLocations(a.pastLocations.length -3)._1 )
-    }
+    world.update()
   }
 
   val ticker = new Ticker(animate)
