@@ -14,7 +14,9 @@ abstract class Enemy(var loc: (Int, Int), world: World, game: Game) extends Game
   // location 98,98 is "cemetary"
   def destroy() = {
      world.map(loc._1)(loc._2) = new Route(loc._1,loc._2)
+     world.currentEnemies.remove(world.currentEnemies.indexOf(this))
      this.loc = (98,98)
+
   }
 
   // checks if some adjecent tile is predefined route and moves there.

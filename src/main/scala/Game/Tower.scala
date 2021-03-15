@@ -1,6 +1,8 @@
 package Game
 
 import scalafx.scene.paint.Color
+
+import scala.collection.mutable.Buffer
 //implement different towers
 
  abstract class Tower(location: (Int, Int), world: World) extends GameObject(location){
@@ -8,10 +10,26 @@ import scalafx.scene.paint.Color
   val range:       Int
   val damage:      Int
   val id = 'T'
-  def update() = ()
+  def update() = {
+    var inRange: Buffer[Enemy] = Buffer()
+   try {
+    for (i <- world.currentEnemies) {
+      val xd       = i.loc._1 - this.location._1
+      val xy       = i.loc._2 - this.location._2
+      val distance = math.sqrt(xd*xd + xy*xy)
+      if (distance < range) {
+        inRange += i
+        throw new Exception     // Breaks the loop maybe???
+      }
+    }
+   } catch {
+     case Exception =>
+   }
+    // shoot at inrange.head
+  }
 
   // creates a new projectile?
-  def shoot()  = ()
+  def shoot(target: Enemy)  = ()
 
 
  }
