@@ -23,7 +23,7 @@ import scala.collection.mutable.Buffer
       }
     }
    } catch {
-     case Exception =>
+     case e: Exception =>
    }
     // shoot at inrange.head
   }
