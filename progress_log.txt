@@ -1,0 +1,15 @@
+
+Project report 1.  16.3.2021
+
+Project has been started and some classes has been added. Project has Game class, GameApp(GUI)
+World class, GameObject class, Enemy class and Tower class. Last three classes have also subclasses
+in them. Enemy has update method kinda working, World class can read and create a map from file and
+it has been kinda tested to work right.
+
+GUI draws a map and moving enemies can be added to it and some buttons etc has been added but nothing
+final. I had a lot of difficulties with animating enemies but it has been implemented now. 
+The way I animate everything in this game is not really efficient but oh well this is the only 
+way I can do it at the moment. 
+
+I have worked like 20 or more hours with this. (A lot of learning and reading). 
+I think I am a little bit ahead of my planned schedule but I still have a lot of work ahead. 
