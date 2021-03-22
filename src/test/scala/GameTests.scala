@@ -1,7 +1,6 @@
 import Game.{normalTower, _}
 import org.scalatest.funsuite.AnyFunSuite
 
-import scala.collection.mutable
 
 // unit testing
 class SetSuite extends AnyFunSuite {
@@ -14,8 +13,6 @@ class SetSuite extends AnyFunSuite {
   world.addTower(b)
 
   test("should destroy enemy and still work") {
-    world.update()
-    world.update()
-    assert(a.loc == (98,98) )
+
   }
 }

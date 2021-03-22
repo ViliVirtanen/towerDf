@@ -58,7 +58,7 @@ abstract class Enemy(var loc: (Int, Int), world: World, game: Game) extends Game
 }
 
 class EasyEnemy(loc: (Int, Int), world: World, game: Game) extends Enemy(loc, world,game) {
-  var health        = 2
+  var health        = 4
   val damage        = 4
   val color         = Color.Yellow
 

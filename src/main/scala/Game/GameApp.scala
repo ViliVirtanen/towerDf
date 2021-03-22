@@ -4,7 +4,7 @@ import scalafx.application.JFXApp
 import scalafx.event.ActionEvent
 import scalafx.geometry.Pos
 import scalafx.scene.Scene
-import scalafx.scene.control.{Button, Label}
+import scalafx.scene.control.{Button, Label, TextInputDialog}
 import scalafx.scene.layout._
 import scalafx.scene.paint.Color._
 import scalafx.scene.shape.{Circle, Rectangle}
@@ -68,9 +68,27 @@ object GameApp extends JFXApp {
 
   // Testing button mechanics
   button1.onAction  = (event: ActionEvent) =>  {
-     grid.add(Circle(2, Blue), 21,95 ,4,4)
-     world.addTower( new normalTower((95,21),world))
-}
+    val dialog = new TextInputDialog(defaultValue = "19,53") {
+      initOwner(stage)
+      title = "Place a tower"
+      headerText = "Enter a location for your tower as:\n number,number" +
+                   " \n first is y and second is x \n0,0 is top left corner"
+      contentText = "Please enter a location:"
+    }
+     val result = dialog.showAndWait()
+    result match {
+       case Some(loc) =>  if ((loc.split(",")(1).toInt <100 && loc.split(",")(1).toInt >= 0) &&
+                              (loc.split(",")(0).toInt <100 && loc.split(",")(0).toInt >= 0)   ) {
+
+                          grid.add(Circle(5, Blue), loc.split(",")(1).toInt,loc.split(",")(0).toInt ,4,4)
+                         world.addTower( new normalTower((loc.split(",")(0).toInt,loc.split(",")(1).toInt),world))
+       }
+
+       case None       => println("Dialog was canceled.")
+   }
+  }
+
+
   // testing how enemy moves
   var a =  new EasyEnemy((9,99),world,game)
    world.addEnemy(a)
