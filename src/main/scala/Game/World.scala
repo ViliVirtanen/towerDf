@@ -70,7 +70,10 @@ class World(file: String) {
  }
 
  // update all objects and map
- def update() = currentObjects.foreach(_.update())
+ def update() =
+   if (currentObjects.nonEmpty) {
+       currentObjects.foreach(_.update())
+   }
 
  // add objects
  def addEnemy(e: Enemy) = {

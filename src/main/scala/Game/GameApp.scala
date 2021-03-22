@@ -68,13 +68,16 @@ object GameApp extends JFXApp {
 
   // Testing button mechanics
   button1.onAction  = (event: ActionEvent) =>  {
-     grid.add(Circle(25, Blue), 1, 2,10,10)
+     grid.add(Circle(2, Blue), 21,95 ,4,4)
+     world.addTower( new normalTower((95,21),world))
 }
   // testing how enemy moves
   var a =  new EasyEnemy((9,99),world,game)
    world.addEnemy(a)
   var b =  new EasyEnemy((9,97),world,game)
    world.addEnemy(b)
+  var c =  new EasyEnemy((9,95),world,game)
+   world.addEnemy(c)
 
   def animate = () => {
     // moves all enemies
