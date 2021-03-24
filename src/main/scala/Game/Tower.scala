@@ -10,9 +10,12 @@ import scala.collection.mutable.Buffer
   val range:       Int
   val damage:      Int
   val id = 'T'
+   var test = false
+   var target: Option[Enemy]= None
   def update() = {
     var inRange: Buffer[Enemy] = Buffer()
-
+     test = false
+    target = None
     for (i <- world.currentEnemies) {
       val xd       = i.loc._1 - this.location._1
       val xy       = i.loc._2 - this.location._2
@@ -22,14 +25,27 @@ import scala.collection.mutable.Buffer
       }
     }
 
-     if ( inRange.nonEmpty) shoot(inRange.head)
+     if ( inRange.nonEmpty) {
+       shoot(inRange.head)
+     }
   }
 
   // creates a new projectile?
-  def shoot(target: Enemy)  = {
+
+   def shoot(target: Enemy)  = {
      target.health -= this.damage
-     if (target.health < 1) target.destroy()
-  }
+     if (target.health < 1) {
+       target.destroy()
+       world.currentProj.filter(_.target.loc == (98,98)).foreach(_.destroy())
+     }
+
+     test = true
+     this.target = Option(target)
+     world.addProjectile(new Projectile(location,world,target,damage))    // does not work porperly when enemy dies and projectile is flying still
+
+   }
+
+
 
 
  }

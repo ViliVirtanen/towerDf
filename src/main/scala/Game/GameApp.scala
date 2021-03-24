@@ -110,11 +110,30 @@ object GameApp extends JFXApp {
         o.pastLocations(o.pastLocations.length -2)._1 )
       }
     }
+    // does not work proprly
+for (o <- world.currentProj) {
+      if ( o.loc != (98,98)) {
+       grid.add(Circle(2, o.color), o.loc._2,o.loc._1)
+      }
+}
+    // stupid and easy way of making tower shoot
+   // for (o <- world.currentTowers) {
+   //    if (o.test && o.target.isDefined) {
+   //      grid.add(Circle(2,Orange),o.location._2,o.location._1,3,3)
+   //     grid.add(Circle(2,Black),o.target.get.loc._2,o.target.get.loc._1)
+   //   }
+   //}
 
-    world.update()
+    // this is very stupid way around a bug :D
+    try {
+      world.update()
+    } catch {
+      case e: NullPointerException =>
+    }
 
     if (game.gameLost) {
       val lost = new Label("you lost!")
+
        lost.setPrefSize(110,100)
        stack.children += lost
         ()

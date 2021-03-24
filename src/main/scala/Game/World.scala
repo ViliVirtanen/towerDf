@@ -13,6 +13,7 @@ class World(file: String) {
   var currentObjects: Buffer[GameObject] = Buffer()
   var currentEnemies: Buffer[Enemy]      = Buffer()
   var currentTowers : Buffer[Tower]      = Buffer()
+  var currentProj: Buffer[Projectile]    = Buffer()
 
  //createMap method will read the layout of the map from file and makes a 2d buffer
  // makes objects and adds them to the right places
@@ -85,5 +86,11 @@ class World(file: String) {
      map(t.location._1)(t.location._2) = t
       currentTowers += t
       currentObjects += t
+  }
+
+  def addProjectile(p: Projectile) = {
+     map(p.location._1)(p.location._2) = p
+      currentProj += p
+      currentObjects += p
   }
 }
