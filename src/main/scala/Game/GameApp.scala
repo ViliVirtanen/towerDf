@@ -111,11 +111,18 @@ object GameApp extends JFXApp {
       }
     }
     // does not work proprly
-for (o <- world.currentProj) {
-      if ( o.loc != (98,98)) {
-       grid.add(Circle(2, o.color), o.loc._2,o.loc._1)
-      }
-}
+    for (o <- world.currentProj) {
+       if ( o.loc != (98,98)) {
+         grid.add(Circle(2, o.color), o.loc._2,o.loc._1)
+       }
+       if (o.lastLocs.length > 2) {
+         val last = o.lastLocs(o.lastLocs.length -2)
+
+         grid.add( Rectangle(7, 7, world.map(last._1)(last._2).color),
+                   last._2, last._1 )
+       }
+    }
+
     // stupid and easy way of making tower shoot
    // for (o <- world.currentTowers) {
    //    if (o.test && o.target.isDefined) {
@@ -130,6 +137,7 @@ for (o <- world.currentProj) {
     } catch {
       case e: NullPointerException =>
     }
+
 
     if (game.gameLost) {
       val lost = new Label("you lost!")

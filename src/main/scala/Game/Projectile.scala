@@ -2,10 +2,13 @@ package Game
 
 import scalafx.scene.paint.Color.Black
 
+import scala.collection.mutable._
+
 
 class Projectile(var loc: (Int,Int), world: World,val target: Enemy, damage: Int) extends GameObject(loc) {
   val color = Black
   val id: Char = 'p'
+  var lastLocs = Buffer(loc)
     def destroy() = {
      world.currentProj.remove(world.currentProj.indexOf(this))
      world.currentObjects.remove(world.currentObjects.indexOf(this))
@@ -20,7 +23,10 @@ class Projectile(var loc: (Int,Int), world: World,val target: Enemy, damage: Int
 
     if (distance < 3 || target.loc == (98,98)) {
       this.destroy()
-    } else moveTowards()
+    } else {
+      moveTowards()
+      lastLocs += loc
+    }
 
   }
 
