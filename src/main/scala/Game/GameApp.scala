@@ -14,7 +14,7 @@ object GameApp extends JFXApp {
   val world = new World("src/main/scala/map1.txt")
   val player = new Player(100, 100)
   val game = new Game(world, player)
-  world.createMap()
+      world.createMap()
 
   stage = new JFXApp.PrimaryStage {
     title.value = "Tower Defence"
@@ -22,7 +22,11 @@ object GameApp extends JFXApp {
     height = 760
   }
 
-  // proper layout for GUI
+  /** proper layout for GUI. It has a grid for the map itself and
+      Buttons on the side. This Sets the tiles in grid to a certain
+      size.
+   **/
+
   val stack = new StackPane()
   val anchor = new AnchorPane()
   val button1 = new Button("Normal Tower")
@@ -39,6 +43,9 @@ object GameApp extends JFXApp {
   grid.getColumnConstraints.add(cc)  //adding the constraints to the grid
   grid.getRowConstraints.add(rc)
 
+  /** This loop paints the map to the GUI based on information from world class.
+      If The map contains wrong type of elements, this throws an exception.
+   **/
 
     try {
       for (i <- 0 to 99) {
@@ -68,15 +75,18 @@ object GameApp extends JFXApp {
 
   // Testing button mechanics
   button1.onAction  = (event: ActionEvent) =>  {
+
     val dialog = new TextInputDialog(defaultValue = "19,53") {
-      initOwner(stage)
-      title = "Place a tower"
-      headerText = "Enter a location for your tower as:\n number,number" +
+    initOwner(stage)
+         title = "Place a tower"
+    headerText = "Enter a location for your tower as:\n number,number" +
                    " \n first y and then x \n0,0 is top left corner"
-      contentText = "Please enter a location:"
+   contentText = "Please enter a location:"
     }
-     val result = dialog.showAndWait()
+    val result = dialog.showAndWait()
+
     result match {
+
        case Some(loc) =>  if ((loc.split(",")(1).toInt <100 && loc.split(",")(1).toInt >= 0) &&
                               (loc.split(",")(0).toInt <100 && loc.split(",")(0).toInt >= 0)   ) {
 
@@ -108,6 +118,8 @@ val task = new java.util.TimerTask {
   }
 }
 t.schedule(task, 1000L, 1000L)
+
+
 
 
   def animate = () => {
@@ -161,8 +173,12 @@ t.schedule(task, 1000L, 1000L)
   }
 
 
-//  val ticker = new Ticker(animate)
- // ticker.start()
+
+
+ val ticker = new Ticker(animate)
+     ticker.start()
+
+
 
   // Setting up the buttons
   anchor.children = List(button1, button2, towerT, health)
@@ -172,15 +188,19 @@ t.schedule(task, 1000L, 1000L)
   AnchorPane.setTopAnchor(health, 200)
 
 
+
   stack.children = List(grid, anchor)
+
 
 
   val root = stack
   val scene = new Scene(root) //Scene acts as a container for the scene graph
   stage.scene = scene
 
-
 }
+
+
+
 
 
 
