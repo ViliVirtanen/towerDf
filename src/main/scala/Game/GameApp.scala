@@ -72,7 +72,7 @@ object GameApp extends JFXApp {
       initOwner(stage)
       title = "Place a tower"
       headerText = "Enter a location for your tower as:\n number,number" +
-                   " \n first is y and second is x \n0,0 is top left corner"
+                   " \n first y and then x \n0,0 is top left corner"
       contentText = "Please enter a location:"
     }
      val result = dialog.showAndWait()
@@ -97,6 +97,19 @@ object GameApp extends JFXApp {
   var c =  new EasyEnemy((9,95),world,game)
    world.addEnemy(c)
 
+
+  // every 7 secs new enemy spawns. still have to figure out how to close this
+  val t = new java.util.Timer()
+val task = new java.util.TimerTask {
+  def run() = {
+    var c =  new EasyEnemy((9,95),world,game)
+    world.addEnemy(c)
+
+  }
+}
+t.schedule(task, 1000L, 1000L)
+
+
   def animate = () => {
     // moves all enemies
     for (o <- world.currentEnemies) {
@@ -110,9 +123,9 @@ object GameApp extends JFXApp {
         o.pastLocations(o.pastLocations.length -2)._1 )
       }
     }
-    // does not work proprly
+
     for (o <- world.currentProj) {
-       if ( o.loc != (98,98)) {
+       if ( o.loc != (98,98) && o.loc._2>=0 && o.loc._1 >=0) {
          grid.add(Circle(2, o.color), o.loc._2,o.loc._1)
        }
        if (o.lastLocs.length > 2) {
@@ -126,7 +139,6 @@ object GameApp extends JFXApp {
     // stupid and easy way of making tower shoot
    // for (o <- world.currentTowers) {
    //    if (o.test && o.target.isDefined) {
-   //      grid.add(Circle(2,Orange),o.location._2,o.location._1,3,3)
    //     grid.add(Circle(2,Black),o.target.get.loc._2,o.target.get.loc._1)
    //   }
    //}
@@ -148,8 +160,9 @@ object GameApp extends JFXApp {
     }
   }
 
-  val ticker = new Ticker(animate)
-  ticker.start()
+
+//  val ticker = new Ticker(animate)
+ // ticker.start()
 
   // Setting up the buttons
   anchor.children = List(button1, button2, towerT, health)
