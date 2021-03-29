@@ -33,8 +33,8 @@ object GameApp extends JFXApp {
   val button1 = new Button("Normal Tower")
   val button2 = new Button("Range Tower")
   val towerT = new Label("Buy Towers")
-  var health = new Label("Health :" + player.hp.toString)
-  var coins = new Label("")
+  val health = new Label("Health :" + player.hp.toString)
+  val coins = new Label("")
   // positioning the grid to right place
   val grid = new GridPane()          //grid for map
   val rc = new RowConstraints()
@@ -87,15 +87,16 @@ object GameApp extends JFXApp {
 
   // every 7 secs new enemy spawns. still have to figure out how to close this
   val t = new java.util.Timer()
-val task = new java.util.TimerTask {
+  val task = new java.util.TimerTask {
   def run() = {
     var c =  new EasyEnemy((9,95),world,game)
     world.addEnemy(c)
 
   }
 }
-t.schedule(task, 10000L, 7000L)
+t.schedule(task, 1000L, 3000L)
 
+  override def stopApp(): Unit = {t.cancel()}
 
 
 
@@ -225,5 +226,14 @@ def buttonAction(towerType: Char) = {
 import javafx.animation.AnimationTimer
 
 class Ticker(function:() =>  Unit) extends AnimationTimer {
-    override def handle(now: Long): Unit = {function()}
+
+  private var lastUpdate = 0L
+    override def handle(now: Long): Unit = {
+      if (now - lastUpdate >= 250_000_000) {
+          function()
+        lastUpdate = now
+      }
+
+    }
+
 }
