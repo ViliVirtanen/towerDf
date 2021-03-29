@@ -11,7 +11,7 @@ class SetSuite extends AnyFunSuite {
   val game = new Game(world, new Player(100,100))
   val a = new EasyEnemy((1,18),world,game)
   world.addEnemy(a)
-  val b = new normalTower((50,30),world)
+  val b = new normalTower((50,30),world,game)
   world.addTower(b)
 
   test("enemy should dissapear to 98, 98 ") {

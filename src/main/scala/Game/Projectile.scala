@@ -21,7 +21,7 @@ class Projectile(var loc: (Int,Int), world: World,val target: Enemy, damage: Int
     val xd       = target.loc._2 - this.loc._2
     val distance = math.sqrt(xd*xd + yd*yd)
 
-    if (distance < 3 || target.loc == (98,98)) {
+    if (distance < 4 || target.loc == (98,98)) {
       this.destroy()
     } else {
       moveTowards()

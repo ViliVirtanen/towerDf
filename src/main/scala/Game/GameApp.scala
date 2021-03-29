@@ -8,6 +8,7 @@ import scalafx.scene.control.{Button, Label, TextInputDialog}
 import scalafx.scene.layout._
 import scalafx.scene.paint.Color._
 import scalafx.scene.shape.{Circle, Rectangle}
+import scalafx.stage.Popup
 
 object GameApp extends JFXApp {
 
@@ -30,9 +31,10 @@ object GameApp extends JFXApp {
   val stack = new StackPane()
   val anchor = new AnchorPane()
   val button1 = new Button("Normal Tower")
-  val button2 = new Button("Other Tower")
+  val button2 = new Button("Range Tower")
   val towerT = new Label("Buy Towers")
-  var health = new Label("Health " + player.hp.toString)
+  var health = new Label("Health :" + player.hp.toString)
+  var coins = new Label("")
   // positioning the grid to right place
   val grid = new GridPane()          //grid for map
   val rc = new RowConstraints()
@@ -75,37 +77,12 @@ object GameApp extends JFXApp {
 
   // Testing button mechanics
   button1.onAction  = (event: ActionEvent) =>  {
-
-    val dialog = new TextInputDialog(defaultValue = "19,53") {
-    initOwner(stage)
-         title = "Place a tower"
-    headerText = "Enter a location for your tower as:\n number,number" +
-                   " \n first y and then x \n0,0 is top left corner"
-   contentText = "Please enter a location:"
-    }
-    val result = dialog.showAndWait()
-
-    result match {
-
-       case Some(loc) =>  if ((loc.split(",")(1).toInt <100 && loc.split(",")(1).toInt >= 0) &&
-                              (loc.split(",")(0).toInt <100 && loc.split(",")(0).toInt >= 0)   ) {
-
-                          grid.add(Circle(5, Blue), loc.split(",")(1).toInt,loc.split(",")(0).toInt ,4,4)
-                         world.addTower( new normalTower((loc.split(",")(0).toInt,loc.split(",")(1).toInt),world))
-       }
-
-       case None       => println("Dialog was canceled.")
-   }
+   buttonAction('n')
+  }
+ button2.onAction  = (event: ActionEvent) =>  {
+   buttonAction('r')
   }
 
-
-  // testing how enemy moves
-  var a =  new EasyEnemy((9,99),world,game)
-   world.addEnemy(a)
-  var b =  new EasyEnemy((9,97),world,game)
-   world.addEnemy(b)
-  var c =  new EasyEnemy((9,95),world,game)
-   world.addEnemy(c)
 
 
   // every 7 secs new enemy spawns. still have to figure out how to close this
@@ -117,12 +94,52 @@ val task = new java.util.TimerTask {
 
   }
 }
-t.schedule(task, 1000L, 1000L)
+t.schedule(task, 10000L, 7000L)
+
+
+
+
+
+def buttonAction(towerType: Char) = {
+  val dialog = new TextInputDialog(defaultValue = "19,53") {
+    initOwner(stage)
+         title = "Place a tower"
+    headerText = "Enter a location for your tower as:\n number,number" +
+                   " \n first y and then x \n0,0 is top left corner."
+   contentText = "Please enter a location:"
+    }
+    val result = dialog.showAndWait()
+
+    result match {
+
+       case Some(loc) =>  if ((loc.split(",")(1).toInt <100 && loc.split(",")(1).toInt >= 0) &&
+                              (loc.split(",")(0).toInt <100 && loc.split(",")(0).toInt >= 0)  ) {
+                          if (towerType == 'n' ) {
+                           if (game.buyTower( new normalTower((loc.split(",")(0).toInt,
+                               loc.split(",")(1).toInt),world, game)) == "Success"    )
+                               grid.add(Circle(5, Blue), loc.split(",")(1).toInt,loc.split(",")(0).toInt ,4,4)
+                          } else if (towerType == 'r') {
+                             if (game.buyTower( new rangeTower((loc.split(",")(0).toInt,
+                                 loc.split(",")(1).toInt),world, game)) == "Success"    )
+                                 grid.add(Circle(5, AliceBlue), loc.split(",")(1).toInt,loc.split(",")(0).toInt ,4,4)
+                          }
+                          }
+// just testing popups
+       case None       => val popup = new Popup()
+         popup.setX(300)
+         popup.setY(200)
+         popup.content.addAll(new Label("WROOOgn"))
+        popup.show(stage)
+
+   }
+}
 
 
 
 
   def animate = () => {
+
+    coins.setText("Coins :" + player.coins.toString)
     // moves all enemies
     for (o <- world.currentEnemies) {
       if ( o.loc != (98,98)) {
@@ -179,13 +196,13 @@ t.schedule(task, 1000L, 1000L)
      ticker.start()
 
 
-
   // Setting up the buttons
-  anchor.children = List(button1, button2, towerT, health)
+  anchor.children = List(button1, button2, towerT, health,coins)
   AnchorPane.setTopAnchor(button1, 30)
   AnchorPane.setTopAnchor(button2, 60)
   AnchorPane.setTopAnchor(towerT, 10)
   AnchorPane.setTopAnchor(health, 200)
+  AnchorPane.setTopAnchor(coins,215)
 
 
 
