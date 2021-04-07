@@ -30,9 +30,10 @@ object GameApp extends JFXApp {
 
   val stack = new StackPane()
   val anchor = new AnchorPane()
-  val button1 = new Button("Normal Tower")
-  val button2 = new Button("Range Tower")
-  val towerT = new Label("Buy Towers")
+  val button1 = new Button("Normal Tower(50c)")
+  val button2 = new Button("Range Tower(70c)")
+  val button3 = new Button("Damage Tower(70c)")
+  val towerT = new Label("Buy Towers:")
   val health = new Label("Health :" + player.hp.toString)
   val coins = new Label("")
   // positioning the grid to right place
@@ -82,7 +83,9 @@ object GameApp extends JFXApp {
  button2.onAction  = (event: ActionEvent) =>  {
    buttonAction('r')
   }
-
+   button3.onAction  = (event: ActionEvent) =>  {
+   buttonAction('d')
+  }
 
 
   // every 7 secs new enemy spawns. still have to figure out how to close this
@@ -123,6 +126,10 @@ def buttonAction(towerType: Char) = {
                              if (game.buyTower( new rangeTower((loc.split(",")(0).toInt,
                                  loc.split(",")(1).toInt),world, game)) == "Success"    )
                                  grid.add(Circle(5, AliceBlue), loc.split(",")(1).toInt,loc.split(",")(0).toInt ,4,4)
+                          } else if (towerType == 'd') {
+                             if (game.buyTower( new damageTower((loc.split(",")(0).toInt,
+                                 loc.split(",")(1).toInt),world, game)) == "Success"    )
+                                 grid.add(Circle(5, Aquamarine), loc.split(",")(1).toInt,loc.split(",")(0).toInt ,4,4)
                           }
                           }
 // just testing popups
@@ -140,7 +147,7 @@ def buttonAction(towerType: Char) = {
 
   def animate = () => {
 
-    coins.setText("Coins :" + player.coins.toString)
+    coins.setText("Coins :" + player.coins.toString + "c")
     // moves all enemies
     for (o <- world.currentEnemies) {
       if ( o.loc != (98,98)) {
@@ -198,9 +205,10 @@ def buttonAction(towerType: Char) = {
 
 
   // Setting up the buttons
-  anchor.children = List(button1, button2, towerT, health,coins)
+  anchor.children = List(button1, button2, button3, towerT, health,coins)
   AnchorPane.setTopAnchor(button1, 30)
   AnchorPane.setTopAnchor(button2, 60)
+  AnchorPane.setTopAnchor(button3, 90)
   AnchorPane.setTopAnchor(towerT, 10)
   AnchorPane.setTopAnchor(health, 200)
   AnchorPane.setTopAnchor(coins,215)
