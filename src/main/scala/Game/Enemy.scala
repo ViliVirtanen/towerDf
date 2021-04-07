@@ -59,9 +59,19 @@ abstract class Enemy(var loc: (Int, Int), world: World, game: Game) extends Game
 }
 
 class EasyEnemy(loc: (Int, Int), world: World, game: Game) extends Enemy(loc, world,game) {
-  var health        = 40
-  val damage        = 4
+  var health        = 20
+  val damage        = 5
   val color         = Color.Yellow
+}
 
+class mediumEnemy(loc: (Int, Int), world: World, game: Game) extends Enemy(loc, world,game) {
+  var health        = 40
+  val damage        = 10
+  val color         = Color.Orange
+}
 
+class bossEnemy(loc: (Int, Int), world: World, game: Game) extends Enemy(loc, world,game) {
+  var health        = 100
+  val damage        = 50
+  val color         = Color.Red
 }
