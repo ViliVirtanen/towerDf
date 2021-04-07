@@ -30,7 +30,7 @@ import scala.collection.mutable.Buffer
      }
   }
 
-  // creates a new projectile?
+
 
    def shoot(target: Enemy)  = {
      target.health -= this.damage
@@ -42,8 +42,7 @@ import scala.collection.mutable.Buffer
 
      test = true
      this.target = Option(target)
-     world.addProjectile(new Projectile(location,world,target,damage))    // does not work porperly when enemy dies and projectile is flying still
-
+     world.addProjectile(new Projectile(location,world,target,damage))
    }
 
 
@@ -54,13 +53,20 @@ import scala.collection.mutable.Buffer
 class normalTower(location: (Int, Int), world: World, game: Game) extends Tower(location, world, game) {
   val range       = 20
   val price       = 50
-  val damage      = 2
+  val damage      = 1
   val color       = Color.Blue
 }
 
 class rangeTower(location: (Int, Int), world: World, game: Game) extends Tower(location, world, game) {
-  val range       = 30
+  val range       = 40
   val price       = 70
-  val damage      = 1
+  val damage      = 2
   val color       = Color.AliceBlue
+}
+
+class damageTower(location: (Int, Int), world: World, game: Game) extends Tower(location, world, game) {
+  val range       = 20
+  val price       = 70
+  val damage      = 10
+  val color       = Color.Aquamarine
 }

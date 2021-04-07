@@ -156,9 +156,9 @@ def buttonAction(towerType: Char) = {
 
     for (o <- world.currentProj) {
        if ( o.loc != (98,98) && o.loc._2>=0 && o.loc._1 >=0) {
-         grid.add(Circle(2, o.color), o.loc._2,o.loc._1)
+         grid.add(Circle(1, o.color), o.loc._2,o.loc._1)
        }
-       if (o.lastLocs.length > 2) {
+       if (o.lastLocs.length > 1) {
          val last = o.lastLocs(o.lastLocs.length -2)
 
          grid.add( Rectangle(7, 7, world.map(last._1)(last._2).color),

@@ -21,8 +21,10 @@ class Projectile(var loc: (Int,Int), world: World,val target: Enemy, damage: Int
     val xd       = target.loc._2 - this.loc._2
     val distance = math.sqrt(xd*xd + yd*yd)
 
-    if (distance < 4 || target.loc == (98,98)) {
+    if (distance < 3 || target.loc == (98,98)) {
+      lastLocs += loc
       this.destroy()
+
     } else {
       moveTowards()
       lastLocs += loc
@@ -31,7 +33,7 @@ class Projectile(var loc: (Int,Int), world: World,val target: Enemy, damage: Int
   }
 
   def moveTowards() = {
-  if (target.loc._2 > this.loc._2) {
+  if (math.abs(target.loc._2 - this.loc._2) > math.abs((target.loc._1 - this.loc._1))) {
     if ((target.loc._1 - this.loc._1) < 0) {
       this.loc = (this.loc._1 -2 ,this.loc._2)
     } else {
