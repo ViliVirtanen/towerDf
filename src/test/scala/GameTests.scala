@@ -24,4 +24,8 @@ class SetSuite extends AnyFunSuite {
 
     assert(world.currentObjects == Buffer(b))
   }
+  test("waves should be added to wavegenerator") {
+    val asd = new WaveGenerator("src/main/scala/waves1.txt",world,game)
+    assert(asd.waves.length == 7)
+  }
 }
