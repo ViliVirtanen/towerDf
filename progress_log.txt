@@ -1,4 +1,3 @@
-
 Project report 1.  16.3.2021
 
 Project has been started and some classes has been added. Project has Game class, GameApp(GUI)
@@ -13,3 +12,25 @@ way I can do it at the moment.
 
 I have worked like 20 or more hours with this. (A lot of learning and reading). 
 I think I am a little bit ahead of my planned schedule but I still have a lot of work ahead. 
+
+
+
+
+
+
+Project report 2. 30.3.2021 
+
+Towers shoot enemies in range and can destroy them. Towers also can be added to the GUI by 
+pressing a button saying the type of the tower and writing coordinates to a popup screen.
+Towers shoot projectiles and they move towards targeted enemy and then dissapear when they are close enough.
+Projectile does not look good in GUI and leaves some trails in the map but they still look kinda like
+projectiles.  
+
+I added a seperate timer to spawn enemies and now it spawn them at predefined rate. This lags the game
+a bit but i am trying to optimize it. GUI has 2 buttons for towers one is for normalTower and the other
+is for a new RangeTower which I added. I have tested a lot of methods with unit test along the way and 
+it helped me with some bugs. There is still some bugs like the movement of projectiles and the fact that
+they do not dissappear fully. 
+
+This game will probably have a really rough GUI implementation. I worked about 15 to 20 hours. I hope that 
+these next 2 weeks i will be able to finish this and then focus on cleaning the code and documentation.
