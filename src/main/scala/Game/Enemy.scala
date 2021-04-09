@@ -6,7 +6,7 @@ import scala.collection.mutable
 
 abstract class Enemy(var loc: (Int, Int), world: World, game: Game) extends GameObject(loc) {
   var health : Int
-  val id   = 'E'
+  val id     = 'E'
   val damage : Int
 
   var pastLocations = mutable.Buffer[(Int,Int)](loc)
@@ -73,5 +73,5 @@ class mediumEnemy(loc: (Int, Int), world: World, game: Game) extends Enemy(loc, 
 class bossEnemy(loc: (Int, Int), world: World, game: Game) extends Enemy(loc, world,game) {
   var health        = 100
   val damage        = 50
-  val color         = Color.Red
+  val color         = Color.Violet
 }

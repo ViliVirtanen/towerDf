@@ -28,4 +28,8 @@ class SetSuite extends AnyFunSuite {
     val asd = new WaveGenerator("src/main/scala/waves1.txt",world,game)
     assert(asd.waves.length == 7)
   }
+  test("wave1 should contain one boss") {
+    val asd = new WaveGenerator("src/main/scala/waves1.txt",world,game)
+    asd.waves.head.enemies.foreach(println(_))
+  }
 }

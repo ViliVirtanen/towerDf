@@ -15,6 +15,7 @@ object GameApp extends JFXApp {
   val world = new World("src/main/scala/map1.txt")
   val player = new Player(100, 100)
   val game = new Game(world, player)
+  val gener = new WaveGenerator("src/main/scala/waves1.txt",world,game)
       world.createMap()
 
   stage = new JFXApp.PrimaryStage {
@@ -88,17 +89,30 @@ object GameApp extends JFXApp {
   }
 
 
-  // every 7 secs new enemy spawns. still have to figure out how to close this
+  // every 7 secs new enemy spawns.
   val t = new java.util.Timer()
+  var tick = 0
+  var tock = 0    // :DD
+
   val task = new java.util.TimerTask {
   def run() = {
-    var c =  new EasyEnemy((9,95),world,game)
-    world.addEnemy(c)
 
+    if (gener.waves.nonEmpty && gener.waves.length >= tick) {
+      if (gener.waves(tick).enemies.length >= tock) {
+
+        world.addEnemy(gener.waves(tick).enemies(tock))
+        tock += 1
+      } else {
+         tick += 1
+      }
+    } else {
+       var c =  new EasyEnemy((9,95),world,game)
+       world.addEnemy(c)
+    }
   }
 }
-t.schedule(task, 1000L, 3000L)
 
+  t.schedule(task, 1000L, 3000L)
   override def stopApp(): Unit = {t.cancel()}
 
 
