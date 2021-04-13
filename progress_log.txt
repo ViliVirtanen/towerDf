@@ -34,3 +34,20 @@ they do not dissappear fully.
 
 This game will probably have a really rough GUI implementation. I worked about 15 to 20 hours. I hope that 
 these next 2 weeks i will be able to finish this and then focus on cleaning the code and documentation.
+
+
+
+
+Project report 3. 13.4.2021
+
+I added 2 new enemies and towers to the game. I also changed and tested the projectile movement. I added 
+new buttons for GUI so different towers can be added with seperate buttons. I finished the waveGenerator 
+and now it reads the correct enemies from file and creates waves for them. Game checks if there is a wave file 
+given and spawns given enemies. If there is no file, game just spawns easyEnemies infinitely. I also added 
+few popup for different situations i.e when player does not have enough money. And if player loses 
+there is a game over popup.
+
+The game is almost ready. There is a lot of cleaning the code and testing different situations still. 
+I could not get the waves to come in with delay but it does not affect the gameplay. I have no idea how 
+much I worked this time. Probably about the same 15-20 hours. There is some bad implementations i.e 
+placing towers to GUI, in my game but I probably wont have enough time to learn better ones.
