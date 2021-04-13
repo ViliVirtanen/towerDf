@@ -4,11 +4,11 @@ import scalafx.application.JFXApp
 import scalafx.event.ActionEvent
 import scalafx.geometry.Pos
 import scalafx.scene.Scene
-import scalafx.scene.control.{Button, Label, TextInputDialog}
+import scalafx.scene.control.Alert.AlertType
+import scalafx.scene.control.{Alert, Button, Label, TextInputDialog}
 import scalafx.scene.layout._
 import scalafx.scene.paint.Color._
 import scalafx.scene.shape.{Circle, Rectangle}
-import scalafx.stage.Popup
 
 object GameApp extends JFXApp {
 
@@ -47,6 +47,7 @@ object GameApp extends JFXApp {
   grid.getColumnConstraints.add(cc)  //adding the constraints to the grid
   grid.getRowConstraints.add(rc)
 
+
   /** This loop paints the map to the GUI based on information from world class.
       If The map contains wrong type of elements, this throws an exception.
    **/
@@ -61,10 +62,7 @@ object GameApp extends JFXApp {
             case g: Route      => grid.add(Rectangle(7, 7, Brown), j, i)
             case g: Obstacle   => grid.add(Rectangle(7, 7, Green), j, i)
                                   grid.add(Circle(2, g.color), j, i)
-            case g: Tower      => grid.add(Rectangle(7, 7, Green), j, i)
-                                  grid.add(Circle(25, g.color), j, i, 7, 7)
-            case g: Enemy      => grid.add(Rectangle(7, 7, Green), j, i)
-                                  grid.add(Circle(3, g.color), j, i)
+
             case _             => throw new Exception
           }
         }
@@ -77,40 +75,39 @@ object GameApp extends JFXApp {
 
 
 
-  // Testing button mechanics
-  button1.onAction  = (event: ActionEvent) =>  {
-   buttonAction('n')
-  }
- button2.onAction  = (event: ActionEvent) =>  {
-   buttonAction('r')
-  }
-   button3.onAction  = (event: ActionEvent) =>  {
-   buttonAction('d')
-  }
+  /** Different buttons spawn different towers
+   *  n is normalTower, r is rangeTower, d is damageTower */
+
+  button1.onAction  = (event: ActionEvent) =>  buttonAction('n')
+  button2.onAction  = (event: ActionEvent) =>  buttonAction('r')
+  button3.onAction  = (event: ActionEvent) =>  buttonAction('d')
+
 
 
   // every 7 secs new enemy spawns.
   val t = new java.util.Timer()
   var tick = 0
   var tock = 0    // :DD
-
+  var change = false
   val task = new java.util.TimerTask {
   def run() = {
 
-    if (gener.waves.nonEmpty && gener.waves.length >= tick) {
-      if (gener.waves(tick).enemies.length >= tock) {
+    if (gener.waves.nonEmpty && gener.waves.length > tick) {
 
-        world.addEnemy(gener.waves(tick).enemies(tock))
-        tock += 1
-      } else {
-         tick += 1
-      }
+        if (gener.waves(tick).enemies.length > tock) {
+          world.addEnemy(gener.waves(tick).enemies(tock))
+          tock += 1
+        } else {
+           tick += 1
+           tock = 0
+        }
+
     } else {
-       var c =  new EasyEnemy((9,95),world,game)
-       world.addEnemy(c)
+         var c =  new EasyEnemy((9,95),world,game)
+         world.addEnemy(c)
     }
   }
-}
+  }
 
   t.schedule(task, 1000L, 3000L)
   override def stopApp(): Unit = {t.cancel()}
@@ -120,41 +117,73 @@ object GameApp extends JFXApp {
 
 def buttonAction(towerType: Char) = {
   val dialog = new TextInputDialog(defaultValue = "19,53") {
-    initOwner(stage)
+     initOwner(stage)
          title = "Place a tower"
     headerText = "Enter a location for your tower as:\n number,number" +
                    " \n first y and then x \n0,0 is top left corner."
    contentText = "Please enter a location:"
     }
+
+
+  /** Helper function for error situations.
+   *  Creates a popup window with error message. */
+  def error(text: String) = {
+    new Alert(AlertType.Error) {
+      initOwner(stage)
+      title       = "Error Dialog"
+      headerText  = text
+      contentText = "Ooops, there was an error!"
+    }.showAndWait()
+  }
+
+
     val result = dialog.showAndWait()
 
     result match {
 
-       case Some(loc) =>  if ((loc.split(",")(1).toInt <100 && loc.split(",")(1).toInt >= 0) &&
-                              (loc.split(",")(0).toInt <100 && loc.split(",")(0).toInt >= 0)  ) {
-                          if (towerType == 'n' ) {
-                           if (game.buyTower( new normalTower((loc.split(",")(0).toInt,
-                               loc.split(",")(1).toInt),world, game)) == "Success"    )
-                               grid.add(Circle(5, Blue), loc.split(",")(1).toInt,loc.split(",")(0).toInt ,4,4)
-                          } else if (towerType == 'r') {
-                             if (game.buyTower( new rangeTower((loc.split(",")(0).toInt,
-                                 loc.split(",")(1).toInt),world, game)) == "Success"    )
-                                 grid.add(Circle(5, AliceBlue), loc.split(",")(1).toInt,loc.split(",")(0).toInt ,4,4)
-                          } else if (towerType == 'd') {
-                             if (game.buyTower( new damageTower((loc.split(",")(0).toInt,
-                                 loc.split(",")(1).toInt),world, game)) == "Success"    )
-                                 grid.add(Circle(5, Aquamarine), loc.split(",")(1).toInt,loc.split(",")(0).toInt ,4,4)
-                          }
-                          }
-// just testing popups
-       case None       => val popup = new Popup()
-         popup.setX(300)
-         popup.setY(200)
-         popup.content.addAll(new Label("WROOOgn"))
-        popup.show(stage)
+       case Some(loc) =>  if ( loc.contains(",") &&
+                             ( loc.split(",")(1).toInt <100 && loc.split(",")(1).toInt >= 0) &&
+                             ( loc.split(",")(0).toInt <100 && loc.split(",")(0).toInt >= 0)  ) {
 
+
+                            if (towerType == 'n' ) {
+
+                             if (game.buyTower( new normalTower((loc.split(",")(0).toInt,
+                                 loc.split(",")(1).toInt),world, game)) == "Success"    ) {
+
+                                 grid.add(Circle(5, Blue), loc.split(",")(1).toInt,loc.split(",")(0).toInt ,4,4)
+                             }   else error("Not enough coins")
+
+
+
+                            } else if (towerType == 'r') {
+
+                               if (game.buyTower( new rangeTower((loc.split(",")(0).toInt,
+                                   loc.split(",")(1).toInt),world, game)) == "Success"    ) {
+
+                                   grid.add(Circle(5, AliceBlue), loc.split(",")(1).toInt,loc.split(",")(0).toInt ,4,4)
+                               }   else error("Not enough coins")
+
+
+
+                            } else if (towerType == 'd') {
+
+                               if (game.buyTower( new damageTower((loc.split(",")(0).toInt,
+                                   loc.split(",")(1).toInt),world, game)) == "Success"    ) {
+
+                                   grid.add(Circle(5, Aquamarine), loc.split(",")(1).toInt,loc.split(",")(0).toInt ,4,4)
+                               }   else error("Not enough coins")
+                            }
+
+
+                          } else {
+                            error("Wrong location. try again.")
+                          }
+
+       case None       =>
    }
 }
+
 
 
 
@@ -179,44 +208,44 @@ def buttonAction(towerType: Char) = {
        if ( o.loc != (98,98) && o.loc._2>=0 && o.loc._1 >=0) {
          grid.add(Circle(1, o.color), o.loc._2,o.loc._1)
        }
+
        if (o.lastLocs.length > 1) {
          val last = o.lastLocs(o.lastLocs.length -2)
-
          grid.add( Rectangle(7, 7, world.map(last._1)(last._2).color),
                    last._2, last._1 )
        }
     }
 
-    // stupid and easy way of making tower shoot
-   // for (o <- world.currentTowers) {
-   //    if (o.test && o.target.isDefined) {
-   //     grid.add(Circle(2,Black),o.target.get.loc._2,o.target.get.loc._1)
-   //   }
-   //}
 
-    // this is very stupid way around a bug :D
     try {
       world.update()
     } catch {
       case e: NullPointerException =>
     }
 
-
-    if (game.gameLost) {
-      val lost = new Label("you lost!")
-
-       lost.setPrefSize(110,100)
-       stack.children += lost
-        ()
+    if (player.hp < 1 && !done) {
+        end()
     }
   }
-
 
 
 
  val ticker = new Ticker(animate)
      ticker.start()
 
+
+  /** If player dies a popup shows up on screen.
+   *  done makes sure that this end() is called only once. */
+  var done = false
+  def end() = {
+    done = true
+    new Alert(AlertType.Information) {
+      initOwner(stage)
+      title = "Game over"
+      headerText = "You lost."
+    }.show()
+      stopApp()
+  }
 
   // Setting up the buttons
   anchor.children = List(button1, button2, button3, towerT, health,coins)
@@ -230,9 +259,6 @@ def buttonAction(towerType: Char) = {
 
 
   stack.children = List(grid, anchor)
-
-
-
   val root = stack
   val scene = new Scene(root) //Scene acts as a container for the scene graph
   stage.scene = scene
