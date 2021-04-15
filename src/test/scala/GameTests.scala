@@ -21,7 +21,6 @@ class SetSuite extends AnyFunSuite {
     a.update()
 
 
-
     assert(world.currentObjects == Buffer(b))
   }
   test("waves should be added to wavegenerator") {

@@ -29,18 +29,18 @@ object GameApp extends JFXApp {
       size.
    **/
 
-  val stack = new StackPane()
-  val anchor = new AnchorPane()
+  val stack   = new StackPane()
+  val anchor  = new AnchorPane()
   val button1 = new Button("Normal Tower(50c)")
   val button2 = new Button("Range Tower(70c)")
   val button3 = new Button("Damage Tower(70c)")
-  val towerT = new Label("Buy Towers:")
-  val health = new Label("Health :" + player.hp.toString)
-  val coins = new Label("")
+  val towerT  = new Label("Buy Towers:")
+  val health  = new Label("Health :" + player.hp.toString)
+  val coins   = new Label("")
   // positioning the grid to right place
-  val grid = new GridPane()          //grid for map
-  val rc = new RowConstraints()
-  val cc = new ColumnConstraints()
+  val grid    = new GridPane()          //grid for map
+  val rc      = new RowConstraints()
+  val cc      = new ColumnConstraints()
   grid.setAlignment(Pos.TopRight)
   rc.setPrefHeight(7)
   cc.setPrefWidth(7)
@@ -61,7 +61,7 @@ object GameApp extends JFXApp {
             case g: Road       => grid.add(Rectangle(7, 7, Brown), j, i)
             case g: Route      => grid.add(Rectangle(7, 7, Brown), j, i)
             case g: Obstacle   => grid.add(Rectangle(7, 7, Green), j, i)
-                                  grid.add(Circle(2, g.color), j, i)
+                                  grid.add(Circle(3, g.color), j, i)
 
             case _             => throw new Exception
           }
@@ -77,7 +77,6 @@ object GameApp extends JFXApp {
 
   /** Different buttons spawn different towers
    *  n is normalTower, r is rangeTower, d is damageTower */
-
   button1.onAction  = (event: ActionEvent) =>  buttonAction('n')
   button2.onAction  = (event: ActionEvent) =>  buttonAction('r')
   button3.onAction  = (event: ActionEvent) =>  buttonAction('d')
@@ -113,7 +112,11 @@ object GameApp extends JFXApp {
   override def stopApp(): Unit = {t.cancel()}
 
 
-
+/** ButtonAction creates a text input dialog where player can write
+ *  coordinates where they want the tower to be placed. ButtoAction
+ *  takes Character and chooses which tower to place and where. When
+ *  tower is placed (if input was correct) popup dissapears and adds
+ *  a tower to the map. */
 
 def buttonAction(towerType: Char) = {
   val dialog = new TextInputDialog(defaultValue = "19,53") {
@@ -125,7 +128,7 @@ def buttonAction(towerType: Char) = {
     }
 
 
-  /** Helper function for error situations.
+  /** Helper function inside buttonAction for error situations.
    *  Creates a popup window with error message. */
   def error(text: String) = {
     new Alert(AlertType.Error) {
@@ -191,6 +194,7 @@ def buttonAction(towerType: Char) = {
   def animate = () => {
 
     coins.setText("Coins :" + player.coins.toString + "c")
+
     // moves all enemies
     for (o <- world.currentEnemies) {
       if ( o.loc != (98,98)) {
@@ -203,6 +207,7 @@ def buttonAction(towerType: Char) = {
         o.pastLocations(o.pastLocations.length -2)._1 )
       }
     }
+
 
     for (o <- world.currentProj) {
        if ( o.loc != (98,98) && o.loc._2>=0 && o.loc._1 >=0) {
@@ -223,19 +228,21 @@ def buttonAction(towerType: Char) = {
       case e: NullPointerException =>
     }
 
+
     if (player.hp < 1 && !done) {
         end()
     }
   }
 
 
-
+/** Creating a simple ticker calling animate repeatedly. */
  val ticker = new Ticker(animate)
      ticker.start()
 
 
   /** If player dies a popup shows up on screen.
-   *  done makes sure that this end() is called only once. */
+   *  done variable makes sure that this end() is
+   *  called only once. */
   var done = false
   def end() = {
     done = true
@@ -247,7 +254,9 @@ def buttonAction(towerType: Char) = {
       stopApp()
   }
 
-  // Setting up the buttons
+  /** Setting up the buttons and labels in correct places.
+   *  achor makes sure that they do not move but are achored
+   *  to the correct place. */
   anchor.children = List(button1, button2, button3, towerT, health,coins)
   AnchorPane.setTopAnchor(button1, 30)
   AnchorPane.setTopAnchor(button2, 60)
@@ -257,7 +266,8 @@ def buttonAction(towerType: Char) = {
   AnchorPane.setTopAnchor(coins,215)
 
 
-
+/** Adding grid and anchorpane to Stack and placing them to
+ *  the visible scene. */
   stack.children = List(grid, anchor)
   val root = stack
   val scene = new Scene(root) //Scene acts as a container for the scene graph
@@ -270,7 +280,9 @@ def buttonAction(towerType: Char) = {
 
 
 
-// Animator
+/** Simple animator. It ticks every 1/4 of a second calling
+ *  the given function. and updates the current time to last
+ *  update variable. */
 import javafx.animation.AnimationTimer
 
 class Ticker(function:() =>  Unit) extends AnimationTimer {
@@ -281,7 +293,5 @@ class Ticker(function:() =>  Unit) extends AnimationTimer {
           function()
         lastUpdate = now
       }
-
     }
-
 }
