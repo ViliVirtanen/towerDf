@@ -59,6 +59,8 @@ class WaveGenerator(file : String, world: World, game: Game) {
 
 
 
+
+/** Wave class is for keeping correct enemies in one wave.*/
   class Wave {
   var enemies = mutable.Buffer[Enemy]()
   def addEnemy(e: Enemy) = enemies += e

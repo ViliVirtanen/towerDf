@@ -1,21 +1,26 @@
 package Game
-
 import scalafx.scene.paint.Color
-
 import scala.collection.mutable.Buffer
-//implement different towers
+
+/** Tower is a gameObject that has location, price, range and damage.
+ *  Tower is placed to a world and it searches enemies in range and
+ *  shoots them damaging or killing them.*/
 
  abstract class Tower(location: (Int, Int), world: World, game: Game) extends GameObject(location){
   val price:       Int
   val range:       Int
   val damage:      Int
   val id = 'T'
-   var test = false
-   var target: Option[Enemy]= None
+
+
+
+   /** Update method checks the distance of all enemies active currently
+    *  in world. If distance is  lower than towers range, it adds the
+    *  enemy to buffer. After its done method takes the first one of the
+    *  enemies and calls the shoot method.*/
   def update() = {
     var inRange: Buffer[Enemy] = Buffer()
-     test = false
-    target = None
+
     for (i <- world.currentEnemies) {
       val xd       = i.loc._1 - this.location._1
       val xy       = i.loc._2 - this.location._2
@@ -31,7 +36,10 @@ import scala.collection.mutable.Buffer
   }
 
 
-
+/** Shoot method takes a target and shoots it with the towers damage.
+ *  If targets health is 0, target is destroyed and the projectiles
+ *  targeting it are also destroyerd. Shoot also sends a new projectile
+ *  targeting the enemy.*/
    def shoot(target: Enemy)  = {
      target.health -= this.damage
      if (target.health < 1) {
@@ -39,16 +47,13 @@ import scala.collection.mutable.Buffer
        world.currentProj.filter(_.target.loc == (98,98)).foreach(_.destroy())
        game.player.coins += 10
      }
-
-     test = true
-     this.target = Option(target)
      world.addProjectile(new Projectile(location,world,target,damage))
    }
-
-
-
-
  }
+
+
+
+/** Different type of towers. Damage range and color changes depending of the type.*/
 
 class normalTower(location: (Int, Int), world: World, game: Game) extends Tower(location, world, game) {
   val range       = 20
