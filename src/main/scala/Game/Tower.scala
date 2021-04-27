@@ -72,6 +72,6 @@ class rangeTower(location: (Int, Int), world: World, game: Game) extends Tower(l
 class damageTower(location: (Int, Int), world: World, game: Game) extends Tower(location, world, game) {
   val range       = 20
   val price       = 70
-  val damage      = 10
+  val damage      = 5
   val color       = Color.Aquamarine
 }
