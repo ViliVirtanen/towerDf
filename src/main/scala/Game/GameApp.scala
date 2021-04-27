@@ -221,7 +221,6 @@ def buttonAction(towerType: Char) = {
        }
     }
 
-
     try {
       world.update()
     } catch {

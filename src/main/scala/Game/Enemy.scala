@@ -8,17 +8,18 @@ abstract class Enemy(var loc: (Int, Int), world: World, game: Game) extends Game
   var health : Int
   val id     = 'E'
   val damage : Int
-
   var pastLocations = mutable.Buffer[(Int,Int)](loc)
+
+
   // location 98,98 is "cemetary"
   def destroy() = {
      world.map(loc._1)(loc._2) = new Route(loc._1,loc._2)
      world.currentObjects.remove(world.currentObjects.indexOf(this))
      world.currentEnemies.remove(world.currentEnemies.indexOf(this))
      this.loc = (98,98)
-
-
   }
+
+
 
   // checks if some adjecent tile is predefined route and moves there.
   def update() = {
@@ -57,6 +58,8 @@ abstract class Enemy(var loc: (Int, Int), world: World, game: Game) extends Game
   }
 
 }
+
+
 
 class EasyEnemy(loc: (Int, Int), world: World, game: Game) extends Enemy(loc, world,game) {
   var health        = 20

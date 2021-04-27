@@ -9,12 +9,16 @@ class Projectile(var loc: (Int,Int), world: World,val target: Enemy, damage: Int
   val color = Black
   val id: Char = 'p'
   var lastLocs = Buffer(loc)
+
+
     def destroy() = {
      world.currentProj.remove(world.currentProj.indexOf(this))
      world.currentObjects.remove(world.currentObjects.indexOf(this))
      this.loc = (98,98)
 
   }
+
+
   // moves towards target enemy
   def update(): Unit = {
     val yd       = target.loc._1 - this.loc._1
@@ -31,6 +35,8 @@ class Projectile(var loc: (Int,Int), world: World,val target: Enemy, damage: Int
     }
 
   }
+
+
 
   def moveTowards() = {
   if (math.abs(target.loc._2 - this.loc._2) > math.abs((target.loc._1 - this.loc._1))) {
@@ -58,7 +64,8 @@ class Projectile(var loc: (Int,Int), world: World,val target: Enemy, damage: Int
     } else {
       this.loc = (this.loc._1 ,this.loc._2 +2)
     }
+  }
+  }
 
-  }
-  }
+
 }
