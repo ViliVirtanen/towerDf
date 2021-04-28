@@ -108,7 +108,7 @@ object GameApp extends JFXApp {
   }
   }
 
-  t.schedule(task, 1000L, 3000L)
+  t.schedule(task, 1000L, 10000L)
   override def stopApp(): Unit = {t.cancel()}
 
 
@@ -155,7 +155,7 @@ def buttonAction(towerType: Char) = {
                                  loc.split(",")(1).toInt),world, game)) == "Success"    ) {
 
                                  grid.add(Circle(5, Blue), loc.split(",")(1).toInt,loc.split(",")(0).toInt ,4,4)
-                             }   else error("Not enough coins")
+                             }   else error("Not enough coins or wrong placement")
 
 
 
@@ -165,7 +165,7 @@ def buttonAction(towerType: Char) = {
                                    loc.split(",")(1).toInt),world, game)) == "Success"    ) {
 
                                    grid.add(Circle(5, AliceBlue), loc.split(",")(1).toInt,loc.split(",")(0).toInt ,4,4)
-                               }   else error("Not enough coins")
+                               }   else error("Not enough coins or wrong placement")
 
 
 
@@ -175,7 +175,7 @@ def buttonAction(towerType: Char) = {
                                    loc.split(",")(1).toInt),world, game)) == "Success"    ) {
 
                                    grid.add(Circle(5, Aquamarine), loc.split(",")(1).toInt,loc.split(",")(0).toInt ,4,4)
-                               }   else error("Not enough coins")
+                               }   else error("Not enough coins or wrong placement")
                             }
 
 
@@ -190,7 +190,10 @@ def buttonAction(towerType: Char) = {
 
 
 
-
+/** Animate updates coins, enemies and projectiles to the GUI.
+ *  It checks the current enemies and projectiles and updates them
+ *  to the correct place in GUI. It also checks their last locations
+ *  and draws the correct piece over it.*/
   def animate = () => {
 
     coins.setText("Coins :" + player.coins.toString + "c")

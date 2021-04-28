@@ -21,7 +21,10 @@ abstract class Enemy(var loc: (Int, Int), world: World, game: Game) extends Game
 
 
 
-  // checks if some adjecent tile is predefined route and moves there.
+ /** Checks for predefined route from all the directions next to it.
+  *  Moves to the correct direction and saves the location to pastlocations.
+  *  It adds a route tile back to the place it just moved from.
+  *  Also checks that it does not go to a location where it has already been.*/
   def update() = {
     if ( world.map(loc._1 - 1)(loc._2).id == 'g' ) {
         this.destroy()

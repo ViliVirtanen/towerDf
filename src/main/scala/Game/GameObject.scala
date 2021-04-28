@@ -14,24 +14,28 @@ abstract class GameObject(var location: (Int, Int)) {
 
 }
 
+
 class Road(location: (Int, Int)) extends GameObject(location) {
   val color = Color.Brown
   val id = 'R'
-
   def update() = ()
 }
+
 
 class Ground(location: (Int, Int)) extends GameObject(location) {
   val color = Color.Green
   val id = 'G'
   def update() = ()
 }
+
+
 /** Gray rock like object just for GUI.*/
 class Obstacle(location: (Int, Int)) extends GameObject(location){
   val color = Color.Grey
   val id = 'O'
   def update() = ()
 }
+
 
 /** Route class is the real predefined road that enemies move.
  *  It is almost like Road but enemies can only move along Route.*/
@@ -40,6 +44,7 @@ class Route(location: (Int, Int)) extends GameObject(location) {
   val id = 'r'
   def update() = ()
 }
+
 
 /** Goal and Start classes helps the enemy to track if its at its destination.*/
 class Goal(location: (Int, Int)) extends Route(location) {

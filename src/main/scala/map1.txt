@@ -1,6 +1,6 @@
 map1 layout
 
-types: #=Ground, R=Road, r=predefined route of enemy, O = Obstacle
+types: #=Ground, R=Road, r=predefined route of enemy, O = Obstacle, g = Goal, s = start
 ##############RRRgRR###########################OOOO#################################################
 ##############RRRrRR############################OO##################################################
 ##############RRRrRR#####################################################################OOO########

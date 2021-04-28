@@ -19,7 +19,9 @@ class Projectile(var loc: (Int,Int), world: World,val target: Enemy, damage: Int
   }
 
 
-  // moves towards target enemy
+  /** Checks the distance between enemy. If its long enough
+   *  it calls moveTowards method moving it toward the target.
+   *  if close enough, this projectile is destroyed.*/
   def update(): Unit = {
     val yd       = target.loc._1 - this.loc._1
     val xd       = target.loc._2 - this.loc._2
@@ -37,7 +39,8 @@ class Projectile(var loc: (Int,Int), world: World,val target: Enemy, damage: Int
   }
 
 
-
+/** Checks if x distance is bigger than y and moves move in x axis
+ *  than y axis and vice versa. Also checks which direction to go. */
   def moveTowards() = {
   if (math.abs(target.loc._2 - this.loc._2) > math.abs((target.loc._1 - this.loc._1))) {
     if ((target.loc._1 - this.loc._1) < 0) {
